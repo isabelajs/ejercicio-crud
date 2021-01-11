@@ -1,0 +1,55 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.contenedor__menu{
+    margin: 20px 0px 20px 10px;
+}
+
+.contenedor__tabla{
+    margin: 0px 0px 20px 10px;
+}
+
+.tabla{
+    margin-top: 20px;
+    min-width: 450px;
+    width: 400px;
+}
+
+.tabla__row--encabezado{
+    background: palevioletred;
+
+}
+
+
+.tabla__row{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.tabla__row>div{
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    
+}
+
+.contenedor_remove{
+    margin: 0px 0px 20px 10px;
+}
+
+.contenedor_remove p{
+    margin-bottom: 20px;
+}
+
+.selection{
+    background-color: coral;
+}
+
+.contenedor__borrar{
+    margin-top: 20px;
+}
