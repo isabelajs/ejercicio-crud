@@ -1,6 +1,5 @@
-const buttonAdds = [...document.getElementsByClassName("button")];
 
-const boards = [...document.getElementsByClassName("tabla")];
+const buttonAdds = [...document.getElementsByClassName("button")];
 
 
 buttonAdds.forEach(buttonAdd => {
@@ -8,14 +7,32 @@ buttonAdds.forEach(buttonAdd => {
 });
 
 function agregarDatos(buttonAdd){
-     let siblings =getSiblings(buttonAdd)
+    const componenteFormulario = buttonAdd.parentNode
+    const componenteGeneral = componenteFormulario.parentNode           //todo el componente que contiene el formulario, tabla, etc....
+    const listaComponentesGeneral = componenteGeneral.childNodes        //lista de subcomponentes "formulario", "tabla"
+    const listaComponentesFormulario = componenteFormulario.childNodes
 
-    siblings.forEach(sibling => {
-        console.log(sibling.value)         
-     });
+    const inputTexto = nodeByTag(listaComponentesFormulario,"text")
+    const inputValue = nodeByTag(listaComponentesFormulario, "value")
 
-}
 
+    const componenteTabla = nodeByTag(listaComponentesGeneral, "tabla")
+    const componenteId = nodeByTag(listaComponentesGeneral, "contador")
+    
+
+    let idActual = parseInt(componenteId.textContent);
+
+
+    componenteTabla.innerHTML += `<div name="${idActual}" class="tabla__row amarillo">
+                                        <div>${idActual}</div>
+                                        <div>${inputTexto.value}</div>
+                                        <div>${inputValue.value}</div>
+                                        <div><input name="button-option" class="button_remover" type="button" value="X"></div>
+                                    </div>` 
+    
+    componenteId.textContent = idActual + 1
+
+}   
 
 let getSiblings = function (e) {
     // for collecting siblings
@@ -38,35 +55,22 @@ let getSiblings = function (e) {
 };
 
 
+function nodeByTag (lista,tagName){
+    //htmlcollection to list
+    var list = [...lista]
+
+    for(index in list){
+        var nodo = list[index]
+
+        if(nodo.nodeType === 1 && nodo.getAttribute("name") == tagName ){
+
+            return nodo
+        }
+
+    }
 
 
-
-   /*  const names =[...document.getElementsByClassName("input__text")];
-    const values =[... document.getElementsByClassName("input__valor")];
-    const ids  = [...document.getElementsByClassName("idHidden")]
-
-    let id = parseInt(ids[position].textContent)
-
-    boards[position].innerHTML += `<div name="${id}" class="tabla__row amarillo">
-                                        <div>${id}</div>
-                                        <div>${name}</div>
-                                        <div>${value}</div>
-                                        <div><input class="button_remover" type="button" value="X"></div>
-                                    </div>`
-
-
-    let suma = id +1
-
-
-    ids[position].textContent = suma
-
- 
-
-
-
-
-
-
+}
 
 
 /* const buttonRemove = document.getElementById("boton__borrar"); */
