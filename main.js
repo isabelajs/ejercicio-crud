@@ -14,11 +14,6 @@ function agregarDatos(buttonAdd){
         console.log(sibling.value)         
      });
 
-     console.log("pepe")
-
-
-
-     console.log("hello pirilona")
 }
 
 
