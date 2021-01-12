@@ -1,12 +1,18 @@
 
 const buttonAdds = [...document.getElementsByClassName("button")];
-
+const buttonsDelete = [...document.getElementsByClassName("boton__borrar")];
 
 buttonAdds.forEach(buttonAdd => {
     buttonAdd.addEventListener("click", ()=>{agregarDatos(buttonAdd)}) 
 });
 
+
+buttonsDelete.forEach(buttonDelete =>{
+    buttonDelete.addEventListener("click", () => {borrar(buttonDelete)})
+})
+
 function agregarDatos(buttonAdd){
+
     const componenteFormulario = buttonAdd.parentNode
     const componenteGeneral = componenteFormulario.parentNode           //todo el componente que contiene el formulario, tabla, etc....
     const listaComponentesGeneral = componenteGeneral.childNodes        //lista de subcomponentes "formulario", "tabla"
@@ -23,16 +29,75 @@ function agregarDatos(buttonAdd){
     let idActual = parseInt(componenteId.textContent);
 
 
-    componenteTabla.innerHTML += `<div name="${idActual}" class="tabla__row amarillo">
-                                        <div>${idActual}</div>
-                                        <div>${inputTexto.value}</div>
-                                        <div>${inputValue.value}</div>
-                                        <div><input name="button-option" class="button_remover" type="button" value="X"></div>
-                                    </div>` 
+    let divFila= crearElemento("div","tabla__row amarillo",[["name",`${idActual}`]])
+
+    let divId = crearElemento("div",undefined,undefined,`${idActual}`)
+    let divText = crearElemento("div",undefined,undefined,`${inputTexto.value}`)
+    let divValue = crearElemento("div",undefined,undefined,`${inputValue.value}`)
+    let divContenedorButton = crearElemento("div",undefined,undefined,)
+    let button = crearElemento("input","button_remover",[["type","button"],["name","button-option"],["value","x"]])
     
+    divContenedorButton.appendChild(button)
+
+    button.addEventListener("click", () => {seleccionar(divFila)});
+    
+    addChildrens(divFila,[divId,divText,divValue,divContenedorButton])
+
+    componenteTabla.appendChild(divFila)
+
     componenteId.textContent = idActual + 1
 
 }   
+
+
+function seleccionar(fila){
+
+    fila.classList.toggle("selection")
+    
+}
+
+function borrar(buttonDelete){
+    let componenteTabla = nodeByTag(buttonDelete.parentNode.parentNode.childNodes, "tabla")
+    let filas = componenteTabla.childNodes
+    for (index in filas){
+        let fila = filas[index]
+        if (fila.nodeType == 1 && fila.classList.contains("selection")){
+            fila.remove()
+        }
+    }
+}
+
+
+function addChildrens(parent,childrens){
+    for(index in childrens){
+        let child = childrens[index]
+        parent.appendChild(child)
+    }
+}
+
+//
+function crearElemento(type,className,atributos,text){
+    let elemento = document.createElement(type);
+
+    if(className !== undefined){
+        elemento.className = className;
+    }
+    if(atributos !== undefined && typeof Array){
+
+        for(index in atributos){
+            let atributo = atributos[index]
+
+            elemento.setAttribute(atributo[0],atributo[1]);
+        }
+
+
+        
+    }
+    
+    elemento.textContent = text
+
+    return elemento
+}
 
 let getSiblings = function (e) {
     // for collecting siblings
@@ -54,7 +119,6 @@ let getSiblings = function (e) {
     return siblings;
 };
 
-
 function nodeByTag (lista,tagName){
     //htmlcollection to list
     var list = [...lista]
@@ -71,46 +135,3 @@ function nodeByTag (lista,tagName){
 
 
 }
-
-
-/* const buttonRemove = document.getElementById("boton__borrar"); */
-
-
-/* buttonRemove.addEventListener("click", removeSelection )  */
-
-
-
-/* function agregarDatos(){
-
-    
-
-    //convierte HTMLCollection en un array
-    let buttonsRemove= [...document.getElementsByClassName("button_remover")]; 
-    
-    buttonsRemove.forEach(button => {
-
-        // button.style.background = "white";
-        button.addEventListener("click",function(){seleccionarDatos(button)})
-    }); 
-}
- */
-
-
-/* function borrarDatos(evento){
-    evento.path[2].remove();
-
-    // button.parentNode.parentNode.remove()
-} */
-
-/* function seleccionarDatos(button){
-    let row = button.parentNode.parentNode;
-    // evalua si esta la clase, si existe la borra sino esta la agrega
-    row.classList.toggle("selection"); 
-
-}
-
-function removeSelection(){
-    let rows = [...document.getElementsByClassName("selection")]
-    rows.forEach(   row => {  row.remove() }    )
-} */
-
