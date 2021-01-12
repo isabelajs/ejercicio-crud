@@ -58,11 +58,13 @@ function seleccionar(fila){
 
 function borrar(buttonDelete){
     let componenteTabla = nodeByTag(buttonDelete.parentNode.parentNode.childNodes, "tabla")
-    let filas = componenteTabla.childNodes
+    let filas = [...componenteTabla.childNodes]
+
     for (index in filas){
         let fila = filas[index]
         if (fila.nodeType == 1 && fila.classList.contains("selection")){
-            fila.remove()
+            componenteTabla.removeChild(fila)
+
         }
     }
 }
